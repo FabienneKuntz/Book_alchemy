@@ -11,6 +11,10 @@
       padding: 30px;
     }
 
+    h1 {
+      margin-bottom: 20px;
+    }
+
     .book {
       display: flex;
       align-items: flex-start;
@@ -37,6 +41,29 @@
       margin: 5px 0;
       color: #555;
     }
+
+    form.search-form {
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 5px 10px;
+      border: none;
+      background-color: #d9534f;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #c9302c;
+    }
+
+    .message {
+      color: green;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 
@@ -44,19 +71,28 @@
 
 <h1>My Library</h1>
 
-<form method="get">
-  <label for="sort">Sortieren nach:</label>
-  <select name="sort" id="sort" onchange="this.form.submit()">
+{% if message %}
+  <p class="message">{{ message }}</p>
+{% endif %}
+
+<form method="get" class="search-form">
+  <input
+    type="text"
+    name="q"
+    placeholder="Search for a book..."
+    value="{{ query or '' }}"
+  >
+  <button type="submit">Search</button>
+
+  <select name="sort" onchange="this.form.submit()">
     <option value="title" {% if sort == "title" %}selected{% endif %}>
-      Titel
+      Title
     </option>
     <option value="author" {% if sort == "author" %}selected{% endif %}>
-      Autor
+      Author
     </option>
   </select>
 </form>
-
-
 
 {% for book in books %}
   <div class="book">
@@ -70,6 +106,12 @@
       <h3>{{ book.title }}</h3>
       <p><strong>Author:</strong> {{ book.author.name }}</p>
       <p><strong>Year:</strong> {{ book.publication_year }}</p>
+
+      <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST" style="margin-top: 10px;">
+        <button type="submit" onclick="return confirm('Do you really want to delete this book?');">
+          ❎ Delete book
+        </button>
+      </form>
     </div>
 
   </div>
