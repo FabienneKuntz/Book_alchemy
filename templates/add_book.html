@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Book</title>
+</head>
+<body>
+
+<h2>Add Book</h2>
+
+{% if message %}
+  <p style="color: green;">{{ message }}</p>
+{% endif %}
+
+<form action="/add_book" method="POST">
+
+  <label>Title:</label><br>
+  <input type="text" name="title" required><br><br>
+
+  <label>ISBN:</label><br>
+  <input type="text" name="isbn" required><br><br>
+
+  <label>Publication Year:</label><br>
+  <input type="number" name="publication_year" required><br><br>
+
+  <label>Author:</label><br>
+  <select name="author_id" required>
+    {% for author in authors %}
+      <option value="{{ author.id }}">{{ author.name }}</option>
+    {% endfor %}
+  </select><br><br>
+
+  <button type="submit">Add Book</button>
+
+</form>
+
+</body>
+</html>

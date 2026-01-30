@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Library</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+    }
+
+    .book {
+      display: flex;
+      align-items: flex-start;
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+
+    .book img {
+      height: 180px;
+      margin-right: 20px;
+      border-radius: 4px;
+    }
+
+    .book-info h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .book-info p {
+      margin: 5px 0;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>My Library</h1>
+
+<form method="get">
+  <label for="sort">Sortieren nach:</label>
+  <select name="sort" id="sort" onchange="this.form.submit()">
+    <option value="title" {% if sort == "title" %}selected{% endif %}>
+      Titel
+    </option>
+    <option value="author" {% if sort == "author" %}selected{% endif %}>
+      Autor
+    </option>
+  </select>
+</form>
+
+
+
+{% for book in books %}
+  <div class="book">
+
+    <img
+      src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+      alt="Cover of {{ book.title }}"
+    >
+
+    <div class="book-info">
+      <h3>{{ book.title }}</h3>
+      <p><strong>Author:</strong> {{ book.author.name }}</p>
+      <p><strong>Year:</strong> {{ book.publication_year }}</p>
+    </div>
+
+  </div>
+{% else %}
+  <p>No books in library yet.</p>
+{% endfor %}
+
+</body>
+</html>
